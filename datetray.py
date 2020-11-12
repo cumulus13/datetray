@@ -97,43 +97,6 @@ class Datetray(QApplication):
 		self.tray.setIcon(icon) 
 		self.tray.setVisible(True) 
 
-	# app = QApplication([]) 
-	# app.setQuitOnLastWindowClosed(False) 
-
-	# # Adding an icon 
-	# # shutil.copyfile(os.path.join(os.path.dirname(__file__), 'date.png'), 'icon.png')
-	# # icon = QIcon("icon.png") 
-	# icon = QIcon(icon) 
-
-	# # Adding item on the menu bar 
-	# tray = QSystemTrayIcon() 
-	# #tray.setIcon(icon) 
-	# setIcon()
-	# tray.setVisible(True) 
-
-	# # Creating the options 
-	# menu = QMenu() 
-	# option1 = QAction("Update") 
-	# option1.triggered.connect(setIcon)
-	# #option2 = QAction("GFG") 
-	# menu.addAction(option1) 
-	# #menu.addAction(option2) 
-
-	# # To quit the app 
-	# quit = QAction("Quit") 
-	# quit.triggered.connect(app.quit) 
-	# menu.addAction(quit) 
-
-	# # Adding options to the System Tray 
-	# tray.setContextMenu(menu) 
-
-	# app.exec_() 
-
-
-def main():
-	while 1:
-		pass
-
 if __name__ == '__main__':
 	c = Datetray()
 	c.exec_()
