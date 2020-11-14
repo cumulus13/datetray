@@ -9,6 +9,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QTimer
 from xnotify.notify import notify
 
+PID = os.getpid()
+print("PID:", PID)
 
 class Datetray(QApplication):
 	def __init__(self, *args, **kwargs):
@@ -44,8 +46,10 @@ class Datetray(QApplication):
 		# Adding options to the System Tray 
 		self.tray.setContextMenu(self.menu) 
 		self.timer = QTimer()
-		msg = "Next Update:", (self.next_time - datetime.now()).seconds, "seconds at", datetime.strftime(self.next_time, '%Y/%m/%d %H:%M:%S')
-		print(msg)
+		msg = "Next Update => Sleep: " + str((self.next_time - datetime.now()).seconds) + " seconds => Update at: " + str(datetime.strftime(self.next_time, '%Y/%m/%d %H:%M:%S'))
+		self.tray.setToolTip(msg)
+		self.tray.showMessage('DateTray', msg, QSystemTrayIcon.Information)
+		# self.tray.setToolTip("TEST setToolTip")
 		notify("DateTray", "DateTray", "start", msg, icon = self.name, direct_run = True)
 		self.timer.setInterval((self.next_time - datetime.now()).seconds * 1000)
 		self.timer.timeout.connect(self.updateIcon)
@@ -89,7 +93,9 @@ class Datetray(QApplication):
 		print("Update ...")
 		msg = "Update datetime to:", datetime.strftime(self.next_time, '%Y/%m/%d %H:%M:%S')
 		notify("DateTray", "DateTray", "update", msg, icon = self.name, direct_run = True)
-		msg1 = "Next Update:", (self.next_time - datetime.now()).seconds, "seconds at", datetime.strftime(self.next_time, '%Y/%m/%d %H:%M:%S')
+		msg1 = "Next Update => Sleep: " + str((self.next_time - datetime.now()).seconds) + " seconds => Update at: " + str(datetime.strftime(self.next_time, '%Y/%m/%d %H:%M:%S'))
+		self.tray.setToolTip(msg1)
+		self.tray.showMessage('DateTray', msg1, QSystemTrayIcon.Information)
 		print(msg1)
 		notify("DateTray", "DateTray", "update", msg1, icon = self.name, direct_run = True)
 		self.draw_date()
