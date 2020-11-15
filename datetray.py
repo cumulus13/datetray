@@ -20,6 +20,7 @@ class Datetray(QApplication):
 		self.now = datetime.now()
 		self.next_time = datetime(self.now.year, self.now.month, self.now.day + 1, 23, 59, 59, 0)
 		# self.next_time = datetime(self.now.year, self.now.month, self.now.day, 14, 7, 0, 0)
+
 		self.sleep = self.next_time - self.now
 		self.sleep = self.sleep.seconds
 		self.name = os.path.join(os.path.dirname(__file__), 'date.png')
@@ -46,14 +47,19 @@ class Datetray(QApplication):
 		# Adding options to the System Tray 
 		self.tray.setContextMenu(self.menu) 
 		self.timer = QTimer()
-		msg = "Next Update => Sleep: " + str((self.next_time - datetime.now()).seconds) + " seconds => Update at: " + str(datetime.strftime(self.next_time, '%Y/%m/%d %H:%M:%S'))
+		msg = "Next Update => Sleep: " + str(self.get_jedi()) + " seconds => Update at: " + str(datetime.strftime(self.next_time, '%Y/%m/%d %H:%M:%S'))
 		self.tray.setToolTip(msg)
 		self.tray.showMessage('DateTray', msg, QSystemTrayIcon.Information)
 		# self.tray.setToolTip("TEST setToolTip")
 		notify("DateTray", "DateTray", "start", msg, icon = self.name, direct_run = True)
-		self.timer.setInterval((self.next_time - datetime.now()).seconds * 1000)
+		self.timer.setInterval(self.get_jedi() * 1000)
 		self.timer.timeout.connect(self.updateIcon)
 		self.timer.start()
+
+	def get_jedi(self):
+		now = datetime.now()
+		next_time = datetime(now.year, now.month, now.day + 1, 23, 59, 59, 0)
+		return (next_time - datetime.now()).seconds
 
 	def format_number(self, number, length = 10):
 	    number = str(number).strip()
@@ -93,7 +99,7 @@ class Datetray(QApplication):
 		print("Update ...")
 		msg = "Update datetime to:", datetime.strftime(self.next_time, '%Y/%m/%d %H:%M:%S')
 		notify("DateTray", "DateTray", "update", msg, icon = self.name, direct_run = True)
-		msg1 = "Next Update => Sleep: " + str((self.next_time - datetime.now()).seconds) + " seconds => Update at: " + str(datetime.strftime(self.next_time, '%Y/%m/%d %H:%M:%S'))
+		msg1 = "Next Update => Sleep: " + str(self.get_jedi()) + " seconds => Update at: " + str(datetime.strftime(self.next_time, '%Y/%m/%d %H:%M:%S'))
 		self.tray.setToolTip(msg1)
 		self.tray.showMessage('DateTray', msg1, QSystemTrayIcon.Information)
 		print(msg1)
